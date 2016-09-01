@@ -191,26 +191,44 @@ def extractSentence(srcFile, distFile):
             sents.append(sent[3])
     for i in range(len(sents)):
         f.write(sents[i] + " \n")
+        
+def filterSentence(srcFile, distFile):
+    f = open(distFile, 'w')
+    for line in open(srcFile, 'r'):
+        sent = line.split(' ')
+        if len(sent) > 4:
+            f.write(line)
+        else:
+            print line
       
 if __name__ == '__main__':
-    train = '../Workshop/Model/data/pit/pit_train.txt'
-    wtrain = '../Workshop/Model/data/tmp/pit_train.txt'
-    dev = '../Workshop/Model/data/pit/pit_dev.txt'
-    wdev = '../Workshop/Model/data/tmp/pit_dev.txt'
-    test = '../Workshop/Model/data/pit/pit_test.txt'
+    train = '/home/hjp/Workshop/Model/data/pit/pit_train.txt'
+    wtrain = '/home/hjp/Workshop/Model/data/tmp/pit_train.txt'
+    dev = '/home/hjp/Workshop/Model/data/pit/pit_dev.txt'
+    wdev = '/home/hjp/Workshop/Model/data/tmp/pit_dev.txt'
+    test = '/home/hjp/Workshop/Model/data/pit/pit_test.txt'
     label = '../Workshop/Model/data/pit/pit_test_label.txt'
-    wtest = '../Workshop/Model/data/tmp/pit_test.txt'
+    wtest = '/home/hjp/Workshop/Model/data/tmp/pit_test.txt'
     strain = '../Workshop/Model/data/tmp/train/'
     sdev = '../Workshop/Model/data/tmp/dev/'
     stest = '../Workshop/Model/data/tmp/test/'
     pit = '../Workshop/Model/data/tmp/'
 
-    trainDev(train, wtrain, True) 
-    trainDev(dev, wdev, True) 
-    testData(test, label, wtest, True)
-    sentSplit(wtrain, strain)
-    sentSplit(wdev, sdev)
-    sentSplit(wtest, stest)
-    buildVocab(pit, pit + 'vocab.txt', True)
-    buildVocab(pit, pit + 'vocabs.txt', False)
-    extractSentence(dev, wdev)  
+#     trainDev(train, wtrain, True) 
+#     trainDev(dev, wdev, True) 
+#     testData(test, label, wtest, True)
+#     sentSplit(wtrain, strain)
+#     sentSplit(wdev, sdev)
+#     sentSplit(wtest, stest)
+#     buildVocab(pit, pit + 'vocab.txt', True)
+#     buildVocab(pit, pit + 'vocabs.txt', False)
+#     extractSentence(train, wtrain)
+    ptb_train = '/home/hjp/Workshop/Model/data/ptb/ptb.train.txt'
+    wptb_train = '/home/hjp/Workshop/Model/data/tmp/ptb.train.txt'
+    ptb_test = '/home/hjp/Workshop/Model/data/ptb/ptb.test.txt'
+    wptb_test = '/home/hjp/Workshop/Model/data/tmp/ptb.test.txt'
+    ptb_valid = '/home/hjp/Workshop/Model/data/ptb/ptb.valid.txt'
+    wptb_valid = '/home/hjp/Workshop/Model/data/tmp/ptb.valid.txt'
+    filterSentence(ptb_train, wptb_train)  
+    filterSentence(ptb_test, wptb_test) 
+    filterSentence(ptb_valid, wptb_valid) 
