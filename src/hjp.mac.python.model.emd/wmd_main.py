@@ -31,8 +31,8 @@ def get_wmd(ix):
     print '%d out of %d' % (i, n)
     for j in xrange(i):
         Di[0,j] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
-    return Di 
-            
+        print Di[0,j]
+    return Di             
 
 def main():
     n = np.shape(X)
