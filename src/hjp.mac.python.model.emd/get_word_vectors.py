@@ -4,7 +4,7 @@ import gensim, pdb, sys, scipy.io as io, numpy as np, pickle, string
 def read_line_by_line(dataset_name, C, model, vec_size):
     # get stop words (except for twitter!)
     SW = set()
-    for line in open("/home/hjp/Downloads/wmd/stop_words.txt"):
+    for line in open("/home/hjp/Workshop/Model/Tmp/stop_words.txt"):
         line = line.strip()
         if line != '':
             SW.add(line)
@@ -76,13 +76,13 @@ def main():
     save_file_mat = "/home/hjp/Downloads/wmd/demo_twitter.mat"
 
     # read document by line.
-    (X,BOW_X,y,C,words)  = read_line_by_line(train_dataset,[],model,vec_size)
+    (X, BOW_X, y, C, words)  = read_line_by_line(train_dataset, [], model, vec_size)
 
     # save pickle of extracted variables.
     with open(save_file, 'w') as f:
         pickle.dump([X, BOW_X, y, C, words], f)
 
-    # save a Matlab .mat file4 (optional). 
+    # save a Matlab format .mat file (optional). 
     io.savemat(save_file_mat,mdict={'X': X, 'BOW_X': BOW_X, 'y': y, 'C': C, 'words': words})
 
 if __name__ == "__main__":
