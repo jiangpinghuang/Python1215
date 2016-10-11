@@ -70,6 +70,7 @@ def distance(x1,x2):
     return np.sqrt( np.sum((np.array(x1) - np.array(x2))**2) )
 
 def get_wmd(ix):
+    print ix
     n = np.shape(X)
     n = n[0]
     Di = np.zeros((1,n))
@@ -82,14 +83,14 @@ def get_wmd(ix):
 
 def main():
     # load pre-trained word vector.
-    model = gensim.models.Word2Vec.load_word2vec_format('/Users/hjp/Workspace/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
+    model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
     vec_size = 300
 
     # set path of stop words, train_dataset, save_file and save_file_mat.
-    stopwords = "/Users/hjp/Workspace/Workshop/Model/wmd/stop_words.txt"
-    train_dataset = "/Users/hjp/Workspace/Workshop/Model/wmd/all_twitter_by_line.txt"
-    save_file_mat = "/Users/hjp/Workspace/Workshop/Model/wmd/wmd_twitter.mat"
-    save_file = "/Users/hjp/Workspace/Workshop/Model/wmd/wmd_twitter.pk"
+    stopwords = "/home/hjp/Workshop/Model/tmp/tmp/wmd/stop_words.txt"
+    train_dataset = "/home/hjp/Workshop/Model/tmp/tmp/wmd/all_twitter_by_line.txt"
+    save_file_mat = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.mat"
+    save_file = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.pk"
 
     # read document by line.
     (X, BOW_X, y, C, words) = read_line_by_line(train_dataset, [], model, vec_size, stopwords)
@@ -103,6 +104,7 @@ def main():
     
     # with open(load_file) as f:
     #    [X, BOW_X, y, C, words] = pickle.load(f)
+    print X
     n = np.shape(X)
     n = n[0]
     D = np.zeros((n, n))
@@ -118,18 +120,35 @@ def main():
         
     n = np.shape(X)
     n = n[0]
-    pool = mp.Pool(processes=8)
+    
+    #print ix
+    n = np.shape(X)
+    n = n[0]
+    Di = np.zeros((1,n))
+    i = n
+    index = 1
+    print '%d out of %d' % (i, n)
+    for i in range(n):
+        for j in xrange(i):
+            Di[0,j] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
+            print index
+            print Di[0,j]
+            index = index + 1
+            # print Di[0,j]
+            
+    # return Di
+    # pool = mp.Pool(processes=8)
 
-    pool_outputs = pool.map(get_wmd, list(range(n)))
-    pool.close()
-    pool.join()
+    # pool_outputs = pool.map(get_wmd, list(range(n)))
+    # pool.close()
+    # pool.join()
 
-    WMD_D = np.zeros((n,n))
-    for i in xrange(n):
-        WMD_D[:,i] = pool_outputs[i]
+    # WMD_D = np.zeros((n,n))
+    # for i in xrange(n):
+    #    WMD_D[:,i] = pool_outputs[i]
 
-    with open(save_file, 'w') as f:
-        pickle.dump(WMD_D, f)
+    # with open(save_file, 'w') as f:
+    #    pickle.dump(WMD_D, f)
 
 if __name__ == "__main__":
     main()                                                                                             
