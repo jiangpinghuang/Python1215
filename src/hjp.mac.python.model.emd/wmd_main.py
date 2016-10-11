@@ -1,16 +1,15 @@
-#start
 import pdb, sys, numpy as np, pickle, multiprocessing as mp
-#sys.path.append('/python-emd-master')
 from emd import emd
 
-load_file = "/home/hjp/Downloads/wmd/demo_twitter.pk"#sys.argv[1]
-save_file = "/home/hjp/Downloads/wmd/demo_result.pk"#sys.argv[2]
+load_file = "/home/hjp/Downloads/wmd/demo_twitter.pk"
+save_file = "/home/hjp/Downloads/wmd/demo_result.pk"
 
 with open(load_file) as f:
     [X, BOW_X, y, C, words] = pickle.load(f)
 n = np.shape(X)
 n = n[0]
 D = np.zeros((n,n))
+
 for i in xrange(n):
     bow_i = BOW_X[i]
     bow_i = bow_i / np.sum(bow_i)
@@ -52,6 +51,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

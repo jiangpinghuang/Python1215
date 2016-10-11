@@ -1,18 +1,14 @@
 import gensim, pdb, sys, scipy.io as io, numpy as np, pickle, string
 
-
-
-# read datasets line by line
-def read_line_by_line(dataset_name,C,model,vec_size):
+# read data sets line by line
+def read_line_by_line(dataset_name, C, model, vec_size):
     # get stop words (except for twitter!)
     SW = set()
-    for line in open("/home/hjp/Downloads/wmd/stop_words.txt"):
+    for line in open("/home/hjp/Workshop/Model/Tmp/stop_words.txt"):
         line = line.strip()
         if line != '':
             SW.add(line)
-
     stop = list(SW)
-
 
     f = open(dataset_name)
     if len(C) == 0:
@@ -69,27 +65,24 @@ def read_line_by_line(dataset_name,C,model,vec_size):
         count = count + 1;
     return (X,BOW_X,y,C,the_words)
 
-
-
-
 def main():
-    # 0. load word2vec model (trained on Google News)
+    # load pre-trained word vector.
     model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
     vec_size = 300
 
-   # 1. specify train/test datasets
-    train_dataset = "/home/hjp/Downloads/wmd/all_twitter_by_line.txt"#sys.argv[1] # e.g.: 'twitter.txt'
-    save_file     = "/home/hjp/Downloads/wmd/demo_twitter.pk"#sys.argv[2] # e.g.: 'twitter.pk'
-    save_file_mat = "/home/hjp/Downloads/wmd/demo_twitter.mat"#sys.argv[3] # e.g.: 'twitter.mat'
+    # set path of train_dataset, save_file and save_file_mat.
+    train_dataset = "/home/hjp/Downloads/wmd/all_twitter_by_line.txt"
+    save_file     = "/home/hjp/Downloads/wmd/demo_twitter.pk"
+    save_file_mat = "/home/hjp/Downloads/wmd/demo_twitter.mat"
 
-    # 2. read document data
-    (X,BOW_X,y,C,words)  = read_line_by_line(train_dataset,[],model,vec_size)
+    # read document by line.
+    (X, BOW_X, y, C, words)  = read_line_by_line(train_dataset, [], model, vec_size)
 
-    # 3. save pickle of extracted variables
+    # save pickle of extracted variables.
     with open(save_file, 'w') as f:
         pickle.dump([X, BOW_X, y, C, words], f)
 
-    # 4. (optional) save a Matlab .mat file
+    # save a Matlab format .mat file (optional). 
     io.savemat(save_file_mat,mdict={'X': X, 'BOW_X': BOW_X, 'y': y, 'C': C, 'words': words})
 
 if __name__ == "__main__":
