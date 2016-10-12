@@ -1,8 +1,8 @@
 import pdb, sys, numpy as np, pickle, multiprocessing as mp
 from emd import emd
 
-load_file = "/home/hjp/Downloads/wmd/demo_twitter.pk"
-save_file = "/home/hjp/Downloads/wmd/demo_result.pk"
+load_file = "/Users/hjp/Workspace/Workshop/Model/wmd/demo_twitter.pk"
+save_file = "/Users/hjp/Workspace/Workshop/Model/wmd/demo_result.pk"
 
 with open(load_file) as f:
     [X, BOW_X, y, C, words] = pickle.load(f)

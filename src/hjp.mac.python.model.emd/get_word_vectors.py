@@ -1,10 +1,11 @@
-import gensim, pdb, sys, scipy.io as io, numpy as np, pickle, string
+import gensim
+#, pdb, sys, scipy.io as io, numpy as np, pickle, string
 
 # read data sets line by line
 def read_line_by_line(dataset_name, C, model, vec_size):
     # get stop words (except for twitter!)
     SW = set()
-    for line in open("/home/hjp/Workshop/Model/Tmp/stop_words.txt"):
+    for line in open("/Users/hjp/Workspace/Workshop/Model/wmd/stop_words.txt"):
         line = line.strip()
         if line != '':
             SW.add(line)
@@ -67,13 +68,13 @@ def read_line_by_line(dataset_name, C, model, vec_size):
 
 def main():
     # load pre-trained word vector.
-    model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
+    model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workspace/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
     vec_size = 300
 
     # set path of train_dataset, save_file and save_file_mat.
-    train_dataset = "/home/hjp/Downloads/wmd/all_twitter_by_line.txt"
-    save_file     = "/home/hjp/Downloads/wmd/demo_twitter.pk"
-    save_file_mat = "/home/hjp/Downloads/wmd/demo_twitter.mat"
+    train_dataset = "/Users/hjp/Workspace/Workshop/Model/wmd/all_twitter_by_line.txt"
+    save_file     = "/Users/hjp/Workspace/Workshop/Model/wmd/demo_twitter.pk"
+    save_file_mat = "/Users/hjp/Workspace/Workshop/Model/wmd/demo_twitter.mat"
 
     # read document by line.
     (X, BOW_X, y, C, words)  = read_line_by_line(train_dataset, [], model, vec_size)

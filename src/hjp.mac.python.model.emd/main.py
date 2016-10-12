@@ -83,14 +83,14 @@ def get_wmd(ix):
 
 def main():
     # load pre-trained word vector.
-    model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workspace/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
+    model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
     vec_size = 300
 
     # set path of stop words, train_dataset, save_file and save_file_mat.
-    stopwords = "/home/hjp/Workspace/Workshop/Model/wmd/stop_words.txt"
-    train_dataset = "/home/hjp/Workspace/Workshop/Model/wmd/all_twitter_by_line.txt"
+    stopwords = "/home/hjp/Workshop/Model/tmp/tmp/wmd/stop_words.txt"
+    train_dataset = "/home/hjp/Workshop/Model/tmp/tmp/wmd/all_twitter_by_line.txt"
     # save_file_mat = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.mat"
-    save_file = "/home/hjp/Workspace/Workshop/Model/wmd/wmd_twitter.pk"
+    save_file = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.pk"
 
     # read document by line.
     (X, BOW_X, y, C, words) = read_line_by_line(train_dataset, [], model, vec_size, stopwords)
@@ -125,15 +125,17 @@ def main():
     # n = np.shape(X)
     # n = n[0]
     # Di = np.zeros((1,n))
-    Di = np.zeros((n, n))
+    Di = np.zeros((1, n/2))
     i = n
     index = 1
     print '%d out of %d' % (i, n)
     for i in range(n):
-        for j in xrange(i):
-            Di[i,j] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
+        if i % 2 == 0:
+            j = i + 1
+        #for j in xrange(i):
+            Di[0,i] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
             # print index
-            print Di[i,j]
+            print Di[0,i]
             # index = index + 1
             # print Di[0,j]
             
