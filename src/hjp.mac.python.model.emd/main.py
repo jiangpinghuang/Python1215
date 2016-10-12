@@ -88,9 +88,9 @@ def main():
 
     # set path of stop words, train_dataset, save_file and save_file_mat.
     stopwords = "/home/hjp/Workspace/Workshop/Model/wmd/stop_words.txt"
-    train_dataset = "/home/hjp/Workshop/Model/wmd/all_twitter_by_line.txt"
+    train_dataset = "/home/hjp/Workspace/Workshop/Model/wmd/all_twitter_by_line.txt"
     # save_file_mat = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.mat"
-    save_file = "/home/hjp/Workshop/Model/wmd/wmd_twitter.pk"
+    save_file = "/home/hjp/Workspace/Workshop/Model/wmd/wmd_twitter.pk"
 
     # read document by line.
     (X, BOW_X, y, C, words) = read_line_by_line(train_dataset, [], model, vec_size, stopwords)
