@@ -1,9 +1,7 @@
 import gensim, pdb, sys, scipy.io as io, numpy as np, pickle, string, multiprocessing as mp
 from emd import emd
 
-# read data sets line by line
 def read_line_by_line(dataset_name, C, model, vec_size, stopwords):
-    # get stop words (except for twitter!)
     SW = set()
     for line in open(stopwords):
         line = line.strip()
@@ -22,7 +20,6 @@ def read_line_by_line(dataset_name, C, model, vec_size, stopwords):
     remain = np.zeros((num_lines,), dtype=np.object)
     the_words = np.zeros((num_lines,), dtype=np.object)
     for line in f:
-        print '%d out of %d' % (count + 1, num_lines)
         line = line.strip()
         line = line.translate(string.maketrans("", ""), string.punctuation)
         T = line.split('\t')
@@ -54,7 +51,6 @@ def read_line_by_line(dataset_name, C, model, vec_size, stopwords):
                     bow_x[inner] += 1
                     F[:, inner] = model[word]
             except KeyError, e:
-                # print 'Key error: "%s"' % str(e)
                 word_order[inner] = ''
             inner = inner + 1
         Fs = F.T[~np.all(F.T == 0, axis=1)]
@@ -69,43 +65,16 @@ def read_line_by_line(dataset_name, C, model, vec_size, stopwords):
 def distance(x1,x2):
     return np.sqrt( np.sum((np.array(x1) - np.array(x2))**2) )
 
-def get_wmd(ix):
-    print ix
-    n = np.shape(X)
-    n = n[0]
-    Di = np.zeros((1,n))
-    i = ix
-    print '%d out of %d' % (i, n)
-    for j in xrange(i):
-        Di[0,j] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
-        print Di[0,j]
-    return Di
-
 def main():
-    # load pre-trained word vector.
     model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
     vec_size = 300
 
-    # set path of stop words, train_dataset, save_file and save_file_mat.
     stopwords = "/home/hjp/Workshop/Model/tmp/tmp/wmd/stop_words.txt"
-    #train_dataset = "/home/hjp/Workshop/Model/tmp/tmp/wmd/twitter.txt"
     train_dataset = "/home/hjp/Workshop/Model/data/tmp/pit.train.txt"
-    # save_file_mat = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.mat"
     save_file = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.pk"
 
-    # read document by line.
     (X, BOW_X, y, C, words) = read_line_by_line(train_dataset, [], model, vec_size, stopwords)
 
-    # save pickle of extracted variables.
-    # with open(load_file, 'w') as f:
-    #    pickle.dump([X, BOW_X, y, C, words], f)
-
-    # save a Matlab format .mat file (optional). 
-    # io.savemat(save_file_mat, mdict={'X': X, 'BOW_X': BOW_X, 'y': y, 'C': C, 'words': words})
-    
-    # with open(load_file) as f:
-    #    [X, BOW_X, y, C, words] = pickle.load(f)
-    print X
     n = np.shape(X)
     n = n[0]
     D = np.zeros((n, n))
@@ -121,38 +90,14 @@ def main():
         
     n = np.shape(X)
     n = n[0]
-    
-    # print ix
-    # n = np.shape(X)
-    # n = n[0]
-    # Di = np.zeros((1,n))
+
     Di = np.zeros((1, n/2))
-    print Di
-    i = n
-    index = 1
-    # print '%d out of %d' % (i, n)
     for i in range(n):
         if i % 2 == 0:
             j = i + 1
-        #for j in xrange(i):
-            #Di[0,i] =
-            print emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
-            # print index
-            #print Di[0,i]
-            # index = index + 1
-            # print Di[0,j]
-            
-    # return Di
-    # pool = mp.Pool(processes=8)
-
-    # pool_outputs = pool.map(get_wmd, list(range(n)))
-    # pool.close()
-    # pool.join()
-
-    # WMD_D = np.zeros((n,n))
-    # for i in xrange(n):
-    #    WMD_D[:,i] = pool_outputs[i]
-
+            Di[0,i/2] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
+            print Di[0, i/2]
+  
     with open(save_file, 'w') as f:
         pickle.dump(Di, f)
 
