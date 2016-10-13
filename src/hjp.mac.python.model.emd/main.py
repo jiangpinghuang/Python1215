@@ -1,4 +1,4 @@
-import gensim, pdb, sys, scipy.io as io, numpy as np, pickle, string, multiprocessing as mp
+import gensim, pdb, sys, scipy.io as io, numpy as np, pickle, string, multiprocessing as mp, math
 from emd import emd
 
 def read_line_by_line(dataset_name, C, model, vec_size, stopwords):
@@ -65,12 +65,19 @@ def read_line_by_line(dataset_name, C, model, vec_size, stopwords):
 def distance(x1,x2):
     return np.sqrt( np.sum((np.array(x1) - np.array(x2))**2) )
 
+def isnan(value):
+  try:
+      import math
+      return math.isnan(float(value))
+  except:
+      return False
+
 def main():
     model = gensim.models.Word2Vec.load_word2vec_format('/home/hjp/Workshop/Model/data/lib/GoogleNews-vectors-negative300.bin', binary=True)
     vec_size = 300
 
     stopwords = "/home/hjp/Workshop/Model/tmp/tmp/wmd/stop_words.txt"
-    train_dataset = "/home/hjp/Workshop/Model/data/tmp/pit.train.txt"
+    train_dataset = "/home/hjp/Downloads/train.txt"#Workshop/Model/data/tmp/pit.train.txt"
     save_file = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.pk"
 
     (X, BOW_X, y, C, words) = read_line_by_line(train_dataset, [], model, vec_size, stopwords)
@@ -96,6 +103,10 @@ def main():
         if i % 2 == 0:
             j = i + 1
             Di[0,i/2] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
+            #if isnan(Di[0, i/2]):
+            #    print 'nan'
+            #    Di[0, i/2] = 5.0
+            Di[0, i/2] = 5.0/math.exp(Di[0, i/2])
             print Di[0, i/2]
   
     with open(save_file, 'w') as f:
