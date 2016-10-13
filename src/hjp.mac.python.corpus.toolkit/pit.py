@@ -240,12 +240,21 @@ if __name__ == '__main__':
 #     buildVocab(pit, pit + 'vocabs.txt', False)
 #     extractSentence(train, wtrain)
     ptb_train = '/home/hjp/Workshop/Model/data/pit/pit_train.txt'
-    wptb_train = '/home/hjp/Workshop/Model/data/tmp/pit.train.txt'
+    wptb_train = '/home/hjp/Workshop/Model/data/tmp/pit_train.txt'
     ptb_test = '/home/hjp/Workshop/Model/data/ptb/ptb.test.txt'
     wptb_test = '/home/hjp/Workshop/Model/data/tmp/ptb.test.txt'
     ptb_valid = '/home/hjp/Workshop/Model/data/ptb/ptb.valid.txt'
     wptb_valid = '/home/hjp/Workshop/Model/data/tmp/ptb.valid.txt'
-    extractSent(ptb_train, wptb_train)
+    
+    pit_train = '/home/hjp/Workshop/Model/data/pit/pit_train.txt'
+    wpit_train = '/home/hjp/Workshop/Model/data/tmp/pit_train.txt'
+    pit_test = '/home/hjp/Workshop/Model/data/pit/pit_test.txt'
+    wpit_test = '/home/hjp/Workshop/Model/data/tmp/pit_test.txt'
+    pit_dev = '/home/hjp/Workshop/Model/data/pit/pit_dev.txt'
+    wpit_dev = '/home/hjp/Workshop/Model/data/tmp/pit_dev.txt'
+    extractSent(pit_train, wpit_train)
+    extractSent(pit_test, wpit_test)
+    extractSent(pit_dev, wpit_dev)
     #filterSentence(ptb_train, wptb_train)  
     #filterSentence(ptb_test, wptb_test) 
     #filterSentence(ptb_valid, wptb_valid) 

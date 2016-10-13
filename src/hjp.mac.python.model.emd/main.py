@@ -77,7 +77,7 @@ def main():
     vec_size = 300
 
     stopwords = "/home/hjp/Workshop/Model/tmp/tmp/wmd/stop_words.txt"
-    train_dataset = "/home/hjp/Downloads/train.txt"#Workshop/Model/data/tmp/pit.train.txt"
+    train_dataset = "/home/hjp/Workshop/Model/data/tmp/pit_test.txt"
     save_file = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.pk"
 
     (X, BOW_X, y, C, words) = read_line_by_line(train_dataset, [], model, vec_size, stopwords)
@@ -103,10 +103,10 @@ def main():
         if i % 2 == 0:
             j = i + 1
             Di[0,i/2] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
-            #if isnan(Di[0, i/2]):
-            #    print 'nan'
-            #    Di[0, i/2] = 5.0
-            Di[0, i/2] = 5.0/math.exp(Di[0, i/2])
+            if isnan(Di[0, i/2]):
+               print 'nan'
+               Di[0, i/2] = 10.0
+            Di[0, i/2] = 1.0/math.exp(Di[0, i/2])
             print Di[0, i/2]
   
     with open(save_file, 'w') as f:
