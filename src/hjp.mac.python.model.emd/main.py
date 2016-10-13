@@ -88,7 +88,8 @@ def main():
 
     # set path of stop words, train_dataset, save_file and save_file_mat.
     stopwords = "/home/hjp/Workshop/Model/tmp/tmp/wmd/stop_words.txt"
-    train_dataset = "/home/hjp/Workshop/Model/tmp/tmp/wmd/all_twitter_by_line.txt"
+    #train_dataset = "/home/hjp/Workshop/Model/tmp/tmp/wmd/twitter.txt"
+    train_dataset = "/home/hjp/Workshop/Model/data/tmp/pit.train.txt"
     # save_file_mat = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.mat"
     save_file = "/home/hjp/Workshop/Model/tmp/tmp/wmd/wmd_twitter.pk"
 
@@ -126,16 +127,18 @@ def main():
     # n = n[0]
     # Di = np.zeros((1,n))
     Di = np.zeros((1, n/2))
+    print Di
     i = n
     index = 1
-    print '%d out of %d' % (i, n)
+    # print '%d out of %d' % (i, n)
     for i in range(n):
         if i % 2 == 0:
             j = i + 1
         #for j in xrange(i):
-            Di[0,i] = emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
+            #Di[0,i] =
+            print emd( (X[i], BOW_X[i]), (X[j], BOW_X[j]), distance)
             # print index
-            print Di[0,i]
+            #print Di[0,i]
             # index = index + 1
             # print Di[0,j]
             

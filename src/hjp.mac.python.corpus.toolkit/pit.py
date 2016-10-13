@@ -192,6 +192,22 @@ def extractSentence(srcFile, distFile):
     for i in range(len(sents)):
         f.write(sents[i] + " \n")
         
+def extractSent(srcFile, distFile):
+    f = open(distFile, 'w')
+    #sents = []
+    for line in open(srcFile, 'r'):
+        print line
+        sent = line.split('\t')
+        print sent[2]
+        print sent[3]
+        f.write(sent[2]+"\n"+sent[3]+"\n")
+        #if sent[2] not in sents:
+        #    sents.append(sent[2])
+        #if sent[3] not in sents:
+        #    sents.append(sent[3])
+    #for i in range(len(sents)):
+    #    f.write(sents[i] + " \n")
+        
 def filterSentence(srcFile, distFile):
     f = open(distFile, 'w')
     for line in open(srcFile, 'r'):
@@ -223,12 +239,13 @@ if __name__ == '__main__':
 #     buildVocab(pit, pit + 'vocab.txt', True)
 #     buildVocab(pit, pit + 'vocabs.txt', False)
 #     extractSentence(train, wtrain)
-    ptb_train = '/home/hjp/Workshop/Model/data/ptb/ptb.train.txt'
-    wptb_train = '/home/hjp/Workshop/Model/data/tmp/ptb.train.txt'
+    ptb_train = '/home/hjp/Workshop/Model/data/pit/pit_train.txt'
+    wptb_train = '/home/hjp/Workshop/Model/data/tmp/pit.train.txt'
     ptb_test = '/home/hjp/Workshop/Model/data/ptb/ptb.test.txt'
     wptb_test = '/home/hjp/Workshop/Model/data/tmp/ptb.test.txt'
     ptb_valid = '/home/hjp/Workshop/Model/data/ptb/ptb.valid.txt'
     wptb_valid = '/home/hjp/Workshop/Model/data/tmp/ptb.valid.txt'
-    filterSentence(ptb_train, wptb_train)  
-    filterSentence(ptb_test, wptb_test) 
-    filterSentence(ptb_valid, wptb_valid) 
+    extractSent(ptb_train, wptb_train)
+    #filterSentence(ptb_train, wptb_train)  
+    #filterSentence(ptb_test, wptb_test) 
+    #filterSentence(ptb_valid, wptb_valid) 
