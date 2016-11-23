@@ -34,7 +34,16 @@ def term2Norm(srcPath, srcFile, targFile):
             sentt = ''
         
 if __name__ == '__main__':
-    srcPath = '../../../../../Workshop/Model/data/norm/tweets_normalization_ner.txt'
-    srcFile = '../../../../../Workshop/Model/data/tmp/tweets_normalization_ner_informal.txt'
-    tarFile = '../../../../../Workshop/Model/data/tmp/tweets_normalization_ner_normalization.txt'
+    linux = '/home/hjp/Workshop/Model/'
+    mac = '/Users/hjp/Workspace/Workshop/Model/'
+    os = 'MAC' # MAC or LINUX
+    if os == 'MAC':
+        srcPath = mac + 'data/norm/test_set_2.txt'
+        srcFile = mac + 'data/tmp/test_set_2_informal.txt'
+        tarFile = mac + 'data/tmp/test_set_2_normalization.txt'
+    else:
+        srcPath = linux + 'data/norm/tweets_normalization_ner.txt'
+        srcFile = linux + 'data/tmp/tweets_normalization_ner_informal.txt'
+        tarFile = linux + 'data/tmp/tweets_normalization_ner_normalization.txt'   
+
     term2Norm(srcPath, srcFile, tarFile)
